@@ -1,0 +1,10 @@
+@import "root.css";
+
+body { 
+    font: var(--p);
+    background: url("../images/gravity.jpeg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
