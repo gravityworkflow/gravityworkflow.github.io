@@ -1,0 +1,27 @@
+{
+  "name": "gravityworkflow.github.io",
+  "version": "1.0.0",
+  "description": "Gravity Workflow",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gravityworkflow/gravityworkflow.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gravityworkflow/gravityworkflow.github.io/issues"
+  },
+  "homepage": "https://github.com/gravityworkflow/gravityworkflow.github.io#readme",
+  "devDependencies": {
+    "vite": "^6.2.2"
+  },
+  "dependencies": {
+    "three": "^0.174.0"
+  }
+}
