@@ -3,11 +3,11 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Trigger the action when changes are pushed to the main branch (or whichever branch you use)
+      - main # Trigger the action when changes are pushed to the main branch
 
 jobs:
   build:
-    runs-on: ubuntu-latest # Run on the latest Ubuntu environment
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -16,20 +16,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16' # Specify the Node.js version you are using
+          node-version: '16'
 
       - name: Install dependencies
-        run: npm install # Install your project dependencies (e.g., Vite, Webpack)
+        run: npm install
 
       - name: Build the project
-        run: npm run build # Run your build command (for Vite, it will be 'vite build')
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages # The branch where your built files will be deployed
-          folder: dist # The folder containing the built files (usually 'dist' for Vite)
-
-
-          # Optional: Configure a custom domain (if you have one)
-          # cname: www.yourdomain.com
+          branch: gh-pages
+          folder: dist
