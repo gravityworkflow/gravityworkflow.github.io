@@ -1,25 +1,28 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 
-export default defineConfig({
-  base: '/',
-  build: {
-    outDir: 'dist',
-    rollupOptions: {
-      input: 'index.html',
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd());
+  return {
+    base: env.VITE_BASE_URL,
+    server: {
+      port: 3000,
+      open: true,
+      strictPort: true,
     },
-  },
-  server: {
-    port: 3000,
-    open: true,
-    strictPort: true,
-    historyApiFallback: true,
-  },
-  resolve: {
-    alias: {
-      three: 'three',
+    resolve: {
+      alias: {
+        three: 'three',
+      },
     },
-  },
-  optimizeDeps: {
-    include: ['three'],
-  },
+    optimizeDeps: {
+      include: ['three'],
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          format: 'es',
+        },
+      },
+    },
+  };
 });

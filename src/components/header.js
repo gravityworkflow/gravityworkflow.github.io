@@ -3,7 +3,7 @@ class HeaderComponent extends HTMLElement {
     this.innerHTML = `
               <header class="header">
                 <a href="./index.html" class="logo">
-                    <img src="/gravity_workflow_logo.png" alt="logo"/>
+                    <img src="gravity_workflow_logo.png" alt="logo"/>
                 </a>
                 <hamburger-component></hamburger-component>
             </header>
