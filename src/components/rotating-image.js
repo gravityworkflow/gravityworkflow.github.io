@@ -9,7 +9,8 @@ class RotatingImage extends HTMLElement {
     this.earth = null;
     this.stars = null;
     this.sunLight = null;
-    this.imageSrc = this.getAttribute('src') || 'earth.jpg';
+    this.ambientLight = null; // Added ambient light
+    this.imageSrc = this.getAttribute('src') || 'moon.jpg';
 
     this.init();
   }
@@ -40,9 +41,13 @@ class RotatingImage extends HTMLElement {
     this.earth = new THREE.Mesh(earthGeometry, earthMaterial);
     this.scene.add(this.earth);
 
+    // Add Ambient Light (Ensures Earth is never fully dark)
+    this.ambientLight = new THREE.AmbientLight(0xffffff, 0.05); // Soft global light
+    this.scene.add(this.ambientLight);
+
     // Add Dynamic Sunlight (Day/Night Effect)
-    this.sunLight = new THREE.PointLight(0xffffff, 1.5);
-    this.sunLight.position.set(5, 0, 5); // Start Position
+    this.sunLight = new THREE.PointLight(0xffffff, 10); // Increased intensity
+    this.sunLight.position.set(5, 3, 5); // Initial position
     this.scene.add(this.sunLight);
 
     // Create Colorful Stars (Nebula Effect)
@@ -93,9 +98,10 @@ class RotatingImage extends HTMLElement {
     this.earth.rotation.y += 0.005;
 
     // Move Sunlight Around Earth (Day/Night Effect)
-    const time = Date.now() * 0.001; // Time-based movement
-    this.sunLight.position.x = Math.sin(time) * 5;
-    this.sunLight.position.z = Math.cos(time) * 5;
+    const time = Date.now() * 0.0005; // Time-based movement
+    this.sunLight.position.x = Math.sin(time) * 6; // Slightly larger orbit
+    this.sunLight.position.z = Math.cos(time) * 6;
+    this.sunLight.position.y = Math.sin(time * 0.5) * 3; // Vertical movement for more dynamic lighting
 
     // Rotate Stars Slightly for Depth Effect
     this.stars.rotation.y += 0.0005;
