@@ -6,10 +6,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "prebuild": "vite build",
     "preview": "vite preview",
-    "github_build": "rm -rf dist && vite build && cp README_gh-pages.md dist/README.md && touch dist/.nojekyll",
-    "github_deploy": "gh-pages -d dist --dotfiles"
+    "build": "rm -rf dist && vite build && cp README_gh-pages.md dist/README.md && touch dist/.nojekyll",
+    "deploy": "gh-pages -d dist --dotfiles"
   },
   "repository": {
     "type": "git",
