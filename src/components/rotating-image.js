@@ -1,4 +1,3 @@
-// import * as THREE from 'three';
 import {
   Scene,
   PerspectiveCamera,
@@ -22,7 +21,7 @@ class RotatingImage extends HTMLElement {
     this.renderer = null;
     this.earth = null;
     this.stars = null;
-    this.imageSrc = this.getAttribute('src') || 'earth.jpg'; // Default Earth texture
+    this.imageSrc = this.getAttribute('src') || '/asteroid.png'; // Default Earth texture
 
     this.init();
   }
