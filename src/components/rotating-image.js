@@ -1,4 +1,18 @@
-import * as THREE from 'three';
+// import * as THREE from 'three';
+import {
+  Scene,
+  PerspectiveCamera,
+  WebGLRenderer,
+  TextureLoader,
+  SphereGeometry,
+  MeshStandardMaterial,
+  Mesh,
+  AmbientLight,
+  BufferGeometry,
+  Float32BufferAttribute,
+  PointsMaterial,
+  Points,
+} from 'three';
 
 class RotatingImage extends HTMLElement {
   constructor() {
@@ -15,35 +29,30 @@ class RotatingImage extends HTMLElement {
 
   init() {
     // Scene & Renderer
-    this.scene = new THREE.Scene();
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    this.scene = new Scene();
+    this.renderer = new WebGLRenderer({ antialias: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.appendChild(this.renderer.domElement);
 
     // Camera
-    this.camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000,
-    );
+    this.camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.camera.position.z = 5;
 
     // Load Earth Texture
-    const textureLoader = new THREE.TextureLoader();
+    const textureLoader = new TextureLoader();
     const earthTexture = textureLoader.load(this.imageSrc);
 
     // Main Earth Sphere (Smooth and Round)
-    const earthGeometry = new THREE.SphereGeometry(2, 64, 64);
-    const earthMaterial = new THREE.MeshStandardMaterial({ map: earthTexture });
-    this.earth = new THREE.Mesh(earthGeometry, earthMaterial);
+    const earthGeometry = new SphereGeometry(2, 64, 64);
+    const earthMaterial = new MeshStandardMaterial({ map: earthTexture });
+    this.earth = new Mesh(earthGeometry, earthMaterial);
     this.scene.add(this.earth);
 
     // Create Starry Background
     this.addStars();
 
     // Lighting (Better 3D Look)
-    const light = new THREE.AmbientLight(0xffffff, 1);
+    const light = new AmbientLight(0xffffff, 1);
     this.scene.add(light);
 
     // Start Animation
@@ -54,7 +63,7 @@ class RotatingImage extends HTMLElement {
   }
 
   addStars() {
-    const starGeometry = new THREE.BufferGeometry();
+    const starGeometry = new BufferGeometry();
     const starVertices = [];
 
     // Generate 2000 stars in random positions
@@ -65,14 +74,14 @@ class RotatingImage extends HTMLElement {
       starVertices.push(x, y, z);
     }
 
-    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-    const starMaterial = new THREE.PointsMaterial({
+    starGeometry.setAttribute('position', new Float32BufferAttribute(starVertices, 3));
+    const starMaterial = new PointsMaterial({
       color: 0xffffff,
       size: 1,
       sizeAttenuation: true,
     });
 
-    this.stars = new THREE.Points(starGeometry, starMaterial);
+    this.stars = new Points(starGeometry, starMaterial);
     this.scene.add(this.stars);
   }
 
