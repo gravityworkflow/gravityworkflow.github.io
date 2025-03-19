@@ -14,6 +14,11 @@ export default defineConfig({
     strictPort: true,
     historyApiFallback: true,
   },
+  resolve: {
+    alias: {
+      three: 'three',
+    },
+  },
   optimizeDeps: {
     include: ['three'],
   },
