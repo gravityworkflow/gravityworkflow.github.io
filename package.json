@@ -2,6 +2,7 @@
   "name": "gravityworkflow.github.io",
   "version": "1.0.0",
   "description": "Gravity Workflow",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",

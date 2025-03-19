@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Trigger the action when changes are pushed to the main branch
+      - main
 
 jobs:
   build:
@@ -13,10 +13,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Check Node.js version
+        run: node -v
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: 18
+
+      - name: Check Node.js version
+        run: node -v
 
       - name: Install dependencies
         run: npm install
