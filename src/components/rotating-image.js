@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from 'https://unpkg.com/three@latest/build/three.module.js';
 
 class RotatingImage extends HTMLElement {
   constructor() {
