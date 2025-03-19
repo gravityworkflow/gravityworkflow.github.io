@@ -8,7 +8,7 @@
     "dev": "vite",
     "prebuild": "vite build",
     "preview": "vite preview",
-    "build": "rm -rf dist && vite build && cp README_gh-pages.md dist/README.md && touch dist/.nojekyll",
+    "build": "rm -rf dist && vite build && touch dist/.nojekyll",
     "deploy": "gh-pages -d dist --dotfiles"
   },
   "repository": {
