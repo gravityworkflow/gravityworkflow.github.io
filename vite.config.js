@@ -1,7 +1,6 @@
 import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/gravityworkflow.github.io/' : '/',
   server: {
     port: 3000,
     open: true,
@@ -15,11 +14,11 @@ export default defineConfig(({ mode }) => ({
   optimizeDeps: {
     include: ['three'],
   },
+  base: '/',
   build: {
+    outDir: 'dist',
     rollupOptions: {
-      output: {
-        format: 'es',
-      },
+      input: 'index.html',
     },
   },
 }));
