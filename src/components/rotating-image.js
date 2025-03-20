@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 class RotatingImage extends HTMLElement {
   constructor() {
@@ -20,7 +21,7 @@ class RotatingImage extends HTMLElement {
     this.scene = new THREE.Scene();
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.appendChild(this.renderer.domElement);
+    this.appendChild(this.renderer.domElement); // append canvas
 
     // Camera
     this.camera = new THREE.PerspectiveCamera(
@@ -29,7 +30,8 @@ class RotatingImage extends HTMLElement {
       0.1,
       1000,
     );
-    this.camera.position.z = 5;
+
+    this.camera.position.set(0, 5, 5); // x, y, z
 
     // Load Earth Texture
     const textureLoader = new THREE.TextureLoader();
@@ -37,18 +39,32 @@ class RotatingImage extends HTMLElement {
 
     // Main Earth Sphere (Smoother Look)
     const earthGeometry = new THREE.SphereGeometry(2, 64, 64);
-    const earthMaterial = new THREE.MeshStandardMaterial({ map: earthTexture });
+    const earthMaterial = new THREE.MeshStandardMaterial({
+      map: earthTexture,
+      roughness: 0.5, // Adjust for reflectivity
+      metalness: 0.1, // Slight metallic effect
+      clearcoat: 0.3, // Adds a subtle sheen
+      clearcoatRoughness: 0.2,
+    });
     this.earth = new THREE.Mesh(earthGeometry, earthMaterial);
     this.scene.add(this.earth);
 
     // Add Ambient Light (Ensures Earth is never fully dark)
-    this.ambientLight = new THREE.AmbientLight(0xffffff, 0.05); // Soft global light
+    this.ambientLight = new THREE.AmbientLight(0xffffff, 0.3); // Soft global light
     this.scene.add(this.ambientLight);
 
     // Add Dynamic Sunlight (Day/Night Effect)
-    this.sunLight = new THREE.PointLight(0xffffff, 10); // Increased intensity
+    this.sunLight = new THREE.PointLight(0xffffff, 50, 100); // Increased intensity
     this.sunLight.position.set(5, 3, 5); // Initial position
     this.scene.add(this.sunLight);
+
+    // Helpers
+    // this.axesHelper = new THREE.AxesHelper(5);
+    // this.lightHelper = new THREE.PointLightHelper(this.sunLight);
+    // this.gridHelper = new THREE.GridHelper(200, 50);
+    // this.scene.add(this.axesHelper, this.lightHelper, this.gridHelper);
+
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
     // Create Colorful Stars (Nebula Effect)
     this.addNebulaStars();
@@ -83,8 +99,10 @@ class RotatingImage extends HTMLElement {
 
     const starMaterial = new THREE.PointsMaterial({
       vertexColors: true,
-      size: 1,
+      size: 1.5, // Slightly bigger
       sizeAttenuation: true,
+      transparent: true,
+      opacity: 0.9,
     });
 
     this.stars = new THREE.Points(starGeometry, starMaterial);
@@ -106,6 +124,7 @@ class RotatingImage extends HTMLElement {
     // Rotate Stars Slightly for Depth Effect
     this.stars.rotation.y += 0.0005;
 
+    this.controls.update();
     this.renderer.render(this.scene, this.camera);
   }
 
