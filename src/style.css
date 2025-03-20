@@ -1,8 +1,8 @@
-@import './css/root.css';
+@import "./css/root.css";
 
-@import './components/header.css';
-@import './components/hero.css';
-@import './components/rotating-image.css';
+@import "./components/header.css";
+@import "./components/hero.css";
+@import "./components/rotating-image.css";
 
 body {
   font: var(--p);

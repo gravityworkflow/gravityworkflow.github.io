@@ -6,9 +6,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "vite build",
     "preview": "vite preview",
-    "build": "rm -rf dist && vite build && touch dist/.nojekyll",
+    "lint": "eslint . --fix",
+    "format": "prettier --write .",
+    "build": "rm -rf dist && vite build && cp README_gh-pages.md dist/README.md && touch dist/.nojekyll",
     "deploy": "gh-pages -d dist --dotfiles"
   },
   "repository": {
@@ -22,7 +23,8 @@
   },
   "devDependencies": {
     "vite": "^6.2.2",
-    "gh-pages": "^6.3.0"
+    "gh-pages": "^6.3.0",
+    "eslint": "^9.22.0"
   },
   "dependencies": {
     "three": "^0.174.0"

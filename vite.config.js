@@ -1,11 +1,11 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from "vite";
 
-export default defineConfig(({ mode }) => ({
-  base: '/',
+export default defineConfig({
+  base: "/",
   build: {
-    outDir: 'dist',
+    outDir: "dist",
     rollupOptions: {
-      input: 'index.html',
+      input: "index.html",
     },
   },
   server: {
@@ -15,10 +15,10 @@ export default defineConfig(({ mode }) => ({
   },
   resolve: {
     alias: {
-      three: 'three',
+      three: "three",
     },
   },
   optimizeDeps: {
-    include: ['three'],
+    include: ["three"],
   },
-}));
+});

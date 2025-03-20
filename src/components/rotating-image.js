@@ -1,5 +1,5 @@
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 class RotatingImage extends HTMLElement {
   constructor() {
@@ -11,7 +11,7 @@ class RotatingImage extends HTMLElement {
     this.stars = null;
     this.sunLight = null;
     this.ambientLight = null; // Added ambient light
-    this.imageSrc = this.getAttribute('src') || 'moon.jpg';
+    this.imageSrc = this.getAttribute("src") || "moon.jpg";
 
     this.init();
   }
@@ -73,7 +73,7 @@ class RotatingImage extends HTMLElement {
     this.animate();
 
     // Handle Window Resize
-    window.addEventListener('resize', () => this.onResize());
+    window.addEventListener("resize", () => this.onResize());
   }
 
   addNebulaStars() {
@@ -94,8 +94,14 @@ class RotatingImage extends HTMLElement {
       starColors.push(color.r, color.g, color.b);
     }
 
-    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-    starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(starColors, 3));
+    starGeometry.setAttribute(
+      "position",
+      new THREE.Float32BufferAttribute(starVertices, 3),
+    );
+    starGeometry.setAttribute(
+      "color",
+      new THREE.Float32BufferAttribute(starColors, 3),
+    );
 
     const starMaterial = new THREE.PointsMaterial({
       vertexColors: true,
@@ -136,4 +142,4 @@ class RotatingImage extends HTMLElement {
 }
 
 // Define the custom element
-customElements.define('rotating-image', RotatingImage);
+customElements.define("rotating-image", RotatingImage);
