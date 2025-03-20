@@ -1,15 +1,14 @@
 (function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const r of document.querySelectorAll('link[rel="modulepreload"]'))n(r);new MutationObserver(r=>{for(const s of r)if(s.type==="childList")for(const a of s.addedNodes)a.tagName==="LINK"&&a.rel==="modulepreload"&&n(a)}).observe(document,{childList:!0,subtree:!0});function e(r){const s={};return r.integrity&&(s.integrity=r.integrity),r.referrerPolicy&&(s.referrerPolicy=r.referrerPolicy),r.crossOrigin==="use-credentials"?s.credentials="include":r.crossOrigin==="anonymous"?s.credentials="omit":s.credentials="same-origin",s}function n(r){if(r.ep)return;r.ep=!0;const s=e(r);fetch(r.href,s)}})();class qo extends HTMLElement{connectedCallback(){this.innerHTML=`
               <header class="header">
                 <a href="./index.html" class="logo">
-                    <img src="gravity_workflow_logo.png" alt="logo"/>
+                    <img src="images/gravity_workflow_logo.png" alt="logo"/>
                 </a>
                 <hamburger-component></hamburger-component>
             </header>
           `}}customElements.define("header-component",qo);class jo extends HTMLElement{connectedCallback(){this.innerHTML=this.getTemplate()}getTemplate(){return`
         <section id="hero" class="hero">
           <div class="hero-container">
-            <!--<img src="asteroid.png"></img>-->
-            <rotating-image src="moon.jpg"></rotating-image>
+            <rotating-image src="images/moon.jpg"></rotating-image>
           </div>
         </section>
       `}}customElements.define("hero-component",jo);/**
