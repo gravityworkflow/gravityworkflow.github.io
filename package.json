@@ -26,5 +26,10 @@
   },
   "dependencies": {
     "three": "^0.174.0"
-  }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }
