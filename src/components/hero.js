@@ -7,11 +7,12 @@ class HeroComponent extends HTMLElement {
     return `
         <section id="hero" class="hero">
           <div class="hero-container">
-            <rotating-image src="images/mars.jpg"></rotating-image>
+            <!--<rotating-image src="images/mars.jpg"></rotating-image>-->
+            <solar-system src="images/mars.jpg"></solar-system>
           </div>
         </section>
       `;
   }
 }
 
-customElements.define("hero-component", HeroComponent);
+customElements.define('hero-component', HeroComponent);

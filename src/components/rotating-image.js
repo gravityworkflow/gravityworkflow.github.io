@@ -1,5 +1,5 @@
-import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 class RotatingImage extends HTMLElement {
   constructor() {
@@ -11,7 +11,7 @@ class RotatingImage extends HTMLElement {
     this.stars = null;
     this.sunLight = null;
     this.ambientLight = null; // Added ambient light
-    this.imageSrc = this.getAttribute("src") || "moon.jpg";
+    this.imageSrc = this.getAttribute('src') || 'moon.jpg';
 
     this.init();
   }
@@ -54,15 +54,21 @@ class RotatingImage extends HTMLElement {
     this.scene.add(this.ambientLight);
 
     // Add Dynamic Sunlight (Day/Night Effect)
-    this.sunLight = new THREE.PointLight(0xffffff, 50, 100); // Increased intensity
+    this.sunLight = new THREE.PointLight(0xffffff, 50, 100);
     this.sunLight.position.set(5, 3, 5); // Initial position
     this.scene.add(this.sunLight);
 
+    // Add Directional Light
+    this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    this.directionalLight.position.set(10, 10, 0);
+    this.scene.add(this.directionalLight);
+
     // Helpers
-    // this.axesHelper = new THREE.AxesHelper(5);
-    // this.lightHelper = new THREE.PointLightHelper(this.sunLight);
-    // this.gridHelper = new THREE.GridHelper(200, 50);
-    // this.scene.add(this.axesHelper, this.lightHelper, this.gridHelper);
+    this.axesHelper = new THREE.AxesHelper(5);
+    this.lightHelper = new THREE.PointLightHelper(this.sunLight);
+    this.directionalLightHelper = new THREE.DirectionalLightHelper(this.directionalLight);
+    this.gridHelper = new THREE.GridHelper(200, 50);
+    this.scene.add(this.axesHelper, this.lightHelper, this.directionalLightHelper, this.gridHelper);
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
@@ -73,7 +79,7 @@ class RotatingImage extends HTMLElement {
     this.animate();
 
     // Handle Window Resize
-    window.addEventListener("resize", () => this.onResize());
+    window.addEventListener('resize', () => this.onResize());
   }
 
   addNebulaStars() {
@@ -94,14 +100,8 @@ class RotatingImage extends HTMLElement {
       starColors.push(color.r, color.g, color.b);
     }
 
-    starGeometry.setAttribute(
-      "position",
-      new THREE.Float32BufferAttribute(starVertices, 3),
-    );
-    starGeometry.setAttribute(
-      "color",
-      new THREE.Float32BufferAttribute(starColors, 3),
-    );
+    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+    starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(starColors, 3));
 
     const starMaterial = new THREE.PointsMaterial({
       vertexColors: true,
@@ -142,4 +142,4 @@ class RotatingImage extends HTMLElement {
 }
 
 // Define the custom element
-customElements.define("rotating-image", RotatingImage);
+customElements.define('rotating-image', RotatingImage);
