@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-// import starsTexture from '/images/solar/stars.jpg';
 import sunTexture from '/images/solar/sun.jpg';
 import mercuryTexture from '/images/solar/mercury.jpg';
 import venusTexture from '/images/solar/venus.jpg';
@@ -22,12 +21,10 @@ class SolarSystem extends HTMLElement {
     this.camera = null;
     this.renderer = null;
     this.textureLoader = null;
-    // this.earth = null;
     this.sun = null;
     this.stars = null;
-    this.sunLight = null;
     this.ambientLight = null;
-    this.imageSrc = this.getAttribute('src') || '/images/moon.jpg';
+    this.lightFromSun = null;
     this.init();
   }
 
@@ -46,46 +43,60 @@ class SolarSystem extends HTMLElement {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
     this.camera.position.set(-90, 140, 140); // x, y, z
-    // this.controls.update();
+    this.controls.update();
 
-    this.ambientLight = new THREE.AmbientLight(0xffffff);
+    this.ambientLight = new THREE.AmbientLight(0x333333, 5);
     this.scene.add(this.ambientLight);
 
     // Earth
     const sunGeo = new THREE.SphereGeometry(16, 30, 30);
     const sunMat = new THREE.MeshBasicMaterial({
       map: this.textureLoader.load(sunTexture),
+      emissive: 0xffff00, // Make it glow yellow
+      emissiveIntensity: 5, // Adjust brightness
     });
     this.sun = new THREE.Mesh(sunGeo, sunMat);
     this.scene.add(this.sun);
 
     // Add Planets
-    this.mercury = this.createPlanet(3.2, mercuryTexture, 28);
-    this.venus = this.createPlanet(5.8, venusTexture, 44);
-    this.earth = this.createPlanet(6, earthTexture, 62);
-    this.mars = this.createPlanet(4, marsTexture, 78);
-    this.jupiter = this.createPlanet(12, jupiterTexture, 100);
-    this.saturn = this.createPlanet(10, saturnTexture, 138, {
+    this.mercury = this.createPlanet(mercuryTexture, 3.2, 28);
+    this.venus = this.createPlanet(venusTexture, 5.8, 44);
+    this.earth = this.createPlanet(earthTexture, 6, 62);
+    this.mars = this.createPlanet(marsTexture, 4, 78);
+    this.jupiter = this.createPlanet(jupiterTexture, 12, 100);
+    this.saturn = this.createPlanet(saturnTexture, 10, 138, {
       innerRadius: 10,
       outerRadius: 20,
       texture: saturnRingTexture,
     });
-    this.uranus = this.createPlanet(7, uranusTexture, 176, {
+    this.uranus = this.createPlanet(uranusTexture, 7, 176, {
       innerRadius: 7,
       outerRadius: 12,
       texture: uranusRingTexture,
     });
-    this.neptune = this.createPlanet(7, neptuneTexture, 200);
-    this.pluto = this.createPlanet(2.8, plutoTexture, 216);
+    this.neptune = this.createPlanet(neptuneTexture, 7, 200);
+    this.pluto = this.createPlanet(plutoTexture, 2.8, 216);
 
-    this.sunLight = new THREE.PointLight(0xffffff, 2, 300);
-    this.scene.add(this.sunLight);
+    // const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+    // directionalLight.position.set(100, 100, 100);
+    // this.scene.add(directionalLight);
+
+    this.lightFromSun = new THREE.PointLight(0xffffff, 5000, 50000);
+    this.lightFromSun.position.set(0, 0, 0);
+    this.scene.add(this.lightFromSun);
+    this.lightFromSun.castShadow = true;
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     // Helpers
     // this.axesHelper = new THREE.AxesHelper(5);
-    // this.lightHelper = new THREE.PointLightHelper(this.sunLight);
+    // this.scene.add(this.axesHelper);
+
+    // this.lightHelper = new THREE.PointLightHelper(this.lightFromSun, 10);
+    // this.scene.add(this.lightHelper);
+
     // this.gridHelper = new THREE.GridHelper(200, 50);
-    // this.scene.add(this.axesHelper, this.lightHelper, this.gridHelper);
+    // this.scene.add(this.gridHelper);
 
     // Create Colorful Stars (Nebula Effect)
     this.addNebulaStars();
@@ -97,19 +108,24 @@ class SolarSystem extends HTMLElement {
     window.addEventListener('resize', () => this.onResize());
   }
 
-  createPlanet(size, texture, position, ring) {
+  createPlanet(texture, size, position, ring) {
     const geo = new THREE.SphereGeometry(size, 30, 30);
     const mat = new THREE.MeshStandardMaterial({
       map: this.textureLoader.load(texture),
+      roughness: 0.5,
+      metalness: 0.1,
     });
     const mesh = new THREE.Mesh(geo, mat);
     const obj = new THREE.Object3D();
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
     obj.add(mesh);
     if (ring) {
       const ringGeo = new THREE.RingGeometry(ring.innerRadius, ring.outerRadius, 32);
       const ringMat = new THREE.MeshBasicMaterial({
         map: this.textureLoader.load(ring.texture),
         side: THREE.DoubleSide,
+        transparent: true,
       });
       const ringMesh = new THREE.Mesh(ringGeo, ringMat);
       obj.add(ringMesh);
@@ -158,7 +174,7 @@ class SolarSystem extends HTMLElement {
     requestAnimationFrame(() => this.animate());
 
     //Self-rotation
-    this.sun.rotation.y += 0.004;
+    this.sun.rotateY(0.004);
     this.mercury.mesh.rotateY(0.004);
     this.venus.mesh.rotateY(0.002);
     this.earth.mesh.rotateY(0.02);

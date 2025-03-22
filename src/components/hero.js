@@ -8,7 +8,7 @@ class HeroComponent extends HTMLElement {
         <section id="hero" class="hero">
           <div class="hero-container">
             <!--<rotating-image src="images/mars.jpg"></rotating-image>-->
-            <solar-system src="images/mars.jpg"></solar-system>
+            <solar-system></solar-system>
           </div>
         </section>
       `;
